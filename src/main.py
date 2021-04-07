@@ -5,6 +5,7 @@ import pickle
 import csv
 import sklearn
 import regex
+import time
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from sklearn import ensemble
@@ -74,42 +75,46 @@ target = [i[2] for i in trainingData]   # data[2] = classification
 
 print("Tweet 1: ", data[1], "\nClassification: ", target[1])
 
-processedData = cleanseData(data)
-    
+processedData = cleanseData(data)    
+
 print("\n", processedData[1])
 
-
-# Convert text to numerical values - MAKE FUNCTION
-X = []
+# Convert data to bag of words.
 vectorizer = sklearn.feature_extraction.text.CountVectorizer(max_features=1500, min_df=5, max_df=0.7, stop_words=stopwords.words('english'))
-X = vectorizer.fit_transform(processedData).toarray()
-print(X)
+vectorizedData = vectorizer.fit_transform(processedData).toarray()
+print(vectorizedData)
 
 #TFIDF WOULD BE HERE...
 
 exit()
 
 # Split into training and testing sets
-X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, target, test_size=0.2, random_state=0)
-
+x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vectorizedData, target, test_size=0.2, random_state=0)
 
 # Training classification model
+startTime = time.time()
 # Random Forest
 #randomForestClassifier = sklearn.ensemble.RandomForestClassifier(n_estimators=1000, random_state=0)
-#randomForestClassifier.fit(X_train, y_train)
+#randomForestClassifier.fit(x_train, y_train)
 
 # Decision Tree
 treeClassifier = DecisionTreeClassifier()
-treeClassifier.fit(X_train, y_train)
+treeClassifier.fit(x_train, y_train)
+
+trainingTime = time.time() - startTime()
 
 # Predict
-#y_pred = randomForestClassifier.predict(X_test)
-y_pred = treeClassifier.predict(X_test)
+startTime = time.time()
+#y_pred = randomForestClassifier.predict(x_test)
+y_pred = treeClassifier.predict(x_test)
+
+predictingTime = time.time() - startTime()
 
 # Resuts
-print("\nConfusion matrix:")
-print(sklearn.metrics.confusion_matrix(y_test, y_pred))
-print("\nClassification report:")
-print(sklearn.metrics.classification_report(y_test, y_pred))
-#print(sklearn.metrics.accuracy_score(y_test, y_pred))
+print("\nTime to train:", trainingTime, "\nTime to predict:", predictingTime)
+print("\nConfusion matrix:", sklearn.metrics.confusion_matrix(y_test, y_pred))
+#print(sklearn.metrics.confusion_matrix(y_test, y_pred))
+print("\nClassification report:", sklearn.metrics.classification_report(y_test, y_pred))
+#print(sklearn.metrics.classification_report(y_test, y_pred))
 
+# Save model
