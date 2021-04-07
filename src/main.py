@@ -10,6 +10,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from sklearn import ensemble
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.feature_extraction.text import TfidfTransformer
 
 def readTrainingData(filePath):
     """
@@ -69,12 +70,26 @@ def cleanseData(data):
     return processedData    
 
 def saveModel(filename, model):
+    """
+    Save model from specified .pickle file.
+    """
     with open(filename, "wb") as modelFile:
         pickle.dump(model, modelFile)
 
 def loadModel(filename):
+    """
+    Load model from specified .pickle file.
+    """
     with open(filename, "rb") as modelFile:
         return pickle.load(modelFile)
+
+def printResults(y_test, y_pred):
+    """
+    Print results.
+    """
+    print("\nTime to train:", trainingTime, "\nTime to predict:", predictingTime)
+    print("\nConfusion matrix:\n", sklearn.metrics.confusion_matrix(y_test, y_pred))
+    print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 
 trainingData = readTrainingData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 # Separate data and target.
@@ -92,9 +107,8 @@ vectorizer = sklearn.feature_extraction.text.CountVectorizer(max_features=1500, 
 vectorizedData = vectorizer.fit_transform(processedData).toarray()
 #print(vectorizedData)
 
-#TFIDF WOULD BE HERE...
-
-#exit()
+# tf-idf (term frequency-inverse document frequency).
+#vectorizedData = TfidfTransformer().fit_transform(vectorizedData).toarray()
 
 # Split into training and testing sets
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vectorizedData, target, test_size=0.2, random_state=0)
@@ -106,26 +120,22 @@ startTime = time.time()
 #randomForestClassifier.fit(x_train, y_train)
 
 # Decision Tree
-treeClassifier = DecisionTreeClassifier()
-treeClassifier.fit(x_train, y_train)
+#treeClassifier = DecisionTreeClassifier()
+#treeClassifier.fit(x_train, y_train)
 
-#treeClassifier = loadModel("../models/test.pickle")
+classifier = loadModel("../models/tree07-04-21.pickle")
 
 trainingTime = time.time() - startTime
 
 # Predict
 startTime = time.time()
 #y_pred = randomForestClassifier.predict(x_test)
-y_pred = treeClassifier.predict(x_test)
+y_pred = classifier.predict(x_test)
 
 predictingTime = time.time() - startTime
 
-# Resuts
-print("\nTime to train:", trainingTime, "\nTime to predict:", predictingTime)
-print("\nConfusion matrix:\n", sklearn.metrics.confusion_matrix(y_test, y_pred))
-#print(sklearn.metrics.confusion_matrix(y_test, y_pred))
-print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
-#print(sklearn.metrics.classification_report(y_test, y_pred))
+# Resuts - MAKE FUNCTION
+printResults(y_test, y_pred)
 
 # Save model
 #saveModel("../models/tree07-04-21.pickle", treeClassifier)
