@@ -68,6 +68,14 @@ def cleanseData(data):
         processedData.append(processedTweet)
     return processedData    
 
+def saveModel(filename, model):
+    with open(filename, "wb") as modelFile:
+        pickle.dump(model, modelFile)
+
+def loadModel(filename):
+    with open(filename, "rb") as modelFile:
+        return pickle.load(modelFile)
+
 trainingData = readTrainingData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 # Separate data and target.
 data   = [i[1] for i in trainingData]   # data[1] = tweet
@@ -82,11 +90,11 @@ print("\n", processedData[1])
 # Convert data to bag of words.
 vectorizer = sklearn.feature_extraction.text.CountVectorizer(max_features=1500, min_df=5, max_df=0.7, stop_words=stopwords.words('english'))
 vectorizedData = vectorizer.fit_transform(processedData).toarray()
-print(vectorizedData)
+#print(vectorizedData)
 
 #TFIDF WOULD BE HERE...
 
-exit()
+#exit()
 
 # Split into training and testing sets
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vectorizedData, target, test_size=0.2, random_state=0)
@@ -101,20 +109,23 @@ startTime = time.time()
 treeClassifier = DecisionTreeClassifier()
 treeClassifier.fit(x_train, y_train)
 
-trainingTime = time.time() - startTime()
+#treeClassifier = loadModel("../models/test.pickle")
+
+trainingTime = time.time() - startTime
 
 # Predict
 startTime = time.time()
 #y_pred = randomForestClassifier.predict(x_test)
 y_pred = treeClassifier.predict(x_test)
 
-predictingTime = time.time() - startTime()
+predictingTime = time.time() - startTime
 
 # Resuts
 print("\nTime to train:", trainingTime, "\nTime to predict:", predictingTime)
-print("\nConfusion matrix:", sklearn.metrics.confusion_matrix(y_test, y_pred))
+print("\nConfusion matrix:\n", sklearn.metrics.confusion_matrix(y_test, y_pred))
 #print(sklearn.metrics.confusion_matrix(y_test, y_pred))
-print("\nClassification report:", sklearn.metrics.classification_report(y_test, y_pred))
+print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 #print(sklearn.metrics.classification_report(y_test, y_pred))
 
 # Save model
+#saveModel("../models/tree07-04-21.pickle", treeClassifier)
