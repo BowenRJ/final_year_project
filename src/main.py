@@ -134,7 +134,6 @@ y_pred = classifier.predict(x_test)
 
 predictingTime = time.time() - startTime
 
-# Resuts - MAKE FUNCTION
 printResults(y_test, y_pred)
 
 # Save model

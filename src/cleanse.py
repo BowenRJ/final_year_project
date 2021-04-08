@@ -2,7 +2,7 @@ import csv
 import regex
 from nltk.stem import WordNetLemmatizer
 
-def readRawData(filePath):
+def readRawData(filepath):
     """
     Read raw data and returns it as a 2D array.
 
@@ -11,9 +11,9 @@ def readRawData(filePath):
     With the levels being the classification of the tweets.
     """
 
-    print("\nReading data from " + filePath + '\n')
+    print("\nReading data from " + filepath + '\n')
     rawData = []
-    with open(filePath, newline='\n', encoding="utf8") as tsvFile:
+    with open(filepath, newline='\n', encoding="utf8") as tsvFile:
         dataReader = csv.reader(tsvFile, delimiter='\t')
         next(dataReader)    # Skip the header row.
         for row in dataReader:
@@ -59,7 +59,7 @@ def cleanseData(data):
         cleansedData.append([data[i][0], processedTweet, data[i][2], data[i][3], data[i][4]])
     return cleansedData    
 
-def saveCleansedData(data, filePath):
+def saveCleansedData(data, filepath):
     """
     Write raw data to a specified file location.
 
@@ -70,8 +70,12 @@ def saveCleansedData(data, filePath):
         dataWriter = csv.writer(tsvFile, delimiter='\t')
         dataWriter.writerows(data)
 
+### MAKE FUNCTION FOR CREATING NUMERIC DATA, AND SAVING IT
+
+
 rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 print(rawData[1])
 cleansedData = cleanseData(rawData)
 print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
 saveCleansedData(cleansedData, "../data/cleansedOLID/training08-04-21.tsv")
+
