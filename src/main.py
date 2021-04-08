@@ -12,7 +12,7 @@ from sklearn import ensemble
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.feature_extraction.text import TfidfTransformer
 
-def readTrainingData(filePath):
+def readRawData(filePath):
     """
     Read training data and returns it as a 2D array.
 
@@ -91,7 +91,7 @@ def printResults(y_test, y_pred):
     print("\nConfusion matrix:\n", sklearn.metrics.confusion_matrix(y_test, y_pred))
     print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 
-trainingData = readTrainingData("../data/OLIDv1.0/olid-training-v1.0.tsv")
+trainingData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 # Separate data and target.
 data   = [i[1] for i in trainingData]   # data[1] = tweet
 target = [i[2] for i in trainingData]   # data[2] = classification
