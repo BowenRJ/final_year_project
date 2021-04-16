@@ -37,9 +37,13 @@ def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
 data, target = readTrainingData("../data/cleansedOLID/training08-04-21.tsv")
 
 # Convert data to bag of words.
-vectorizer = sklearn.feature_extraction.text.CountVectorizer(max_features=1500, min_df=5, max_df=0.7, stop_words=stopwords.words('english'))
+vectorizer = sklearn.feature_extraction.text.CountVectorizer(
+    max_features=150,    # Note: test set can only provide 421 features.
+    min_df=5, 
+    max_df=0.7, 
+    stop_words=stopwords.words('english')
+)
 vectorizedData = vectorizer.fit_transform(data).toarray()
-#print(vectorizedData)
 
 # tf-idf (term frequency-inverse document frequency).
 #vectorizedData = TfidfTransformer().fit_transform(vectorizedData).toarray()
@@ -70,4 +74,4 @@ predictingTime = time.time() - startTime
 printTrainingResults(y_test, y_pred, trainingTime, predictingTime)
 
 # Save model
-#saveModel("../models/tree07-04-21.pickle", treeClassifier)
+saveModel("../models/tree150features_16-04-21.pickle", classifier)

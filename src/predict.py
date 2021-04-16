@@ -54,28 +54,25 @@ def readTrainingData(filepath):
     return data, target
 
 
-# Read data and target.
+# Read test data and target.
 data, target = readTestData("../data/OLIDv1.0/testset-levela.tsv", "../data/OLIDv1.0/labels-levela.csv")
 
 # Convert data to bag of words.
 vectorizer = sklearn.feature_extraction.text.CountVectorizer(
-    max_features=1500, 
-    min_df=5, 
-    max_df=0.7, 
+    max_features=150,
+    min_df=5,
+    max_df=0.7,
     stop_words=stopwords.words('english')
 )
 vectorizedData = vectorizer.fit_transform(data).toarray()
 
-# Split data
-x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vectorizedData, target, test_size=0.2, random_state=0)
-
 # Load model
-classifier = loadModel("../models/tree07-04-21.pickle")
+classifier = loadModel("../models/tree150features_16-04-21.pickle")
 
 # Predict
 startTime = time.time()
-#y_pred = classifier.predict(x_test)
+predictions = classifier.predict(vectorizedData)
 
 predictingTime = time.time() - startTime
 
-#printResults(y_test, y_pred, predictingTime)
+printResults(target, predictions, predictingTime)

@@ -65,8 +65,8 @@ def saveCleansedData(data, filepath):
 
     """
 
-    print("\nWriting data to " + filePath + '\n')
-    with open(filePath, "w", newline='\n', encoding="utf8") as tsvFile:
+    print("\nWriting data to " + filepath + '\n')
+    with open(filepath, "w", newline='\n', encoding="utf8") as tsvFile:
         dataWriter = csv.writer(tsvFile, delimiter='\t')
         dataWriter.writerows(data)
 
@@ -77,5 +77,6 @@ rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 print(rawData[1])
 cleansedData = cleanseData(rawData)
 print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
-saveCleansedData(cleansedData, "../data/cleansedOLID/training08-04-21.tsv")
+#saveCleansedData(cleansedData, "../data/cleansedOLID/training08-04-21.tsv")
+
 
