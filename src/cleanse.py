@@ -1,5 +1,6 @@
 import csv
 import regex
+import pickle
 from nltk.stem import WordNetLemmatizer
 
 def readRawData(filepath):
@@ -19,6 +20,7 @@ def readRawData(filepath):
         for row in dataReader:
             rawData.append(row)
     return rawData
+
 
 def cleanseData(data):
     """
@@ -56,27 +58,30 @@ def cleanseData(data):
         processedTweet = [stemmer.lemmatize(word) for word in processedTweet]
         processedTweet = ' '.join(processedTweet)    # Convert back to string.
         
-        cleansedData.append([data[i][0], processedTweet, data[i][2], data[i][3], data[i][4]])
+        cleansedData.append(processedTweet)
     return cleansedData    
+
 
 def saveCleansedData(data, filepath):
     """
     Write raw data to a specified file location.
-
     """
 
     print("\nWriting data to " + filepath + '\n')
-    with open(filepath, "w", newline='\n', encoding="utf8") as tsvFile:
-        dataWriter = csv.writer(tsvFile, delimiter='\t')
-        dataWriter.writerows(data)
-
-### MAKE FUNCTION FOR CREATING NUMERIC DATA, AND SAVING IT
+    with open(filepath, "wb") as pickleFile:
+        pickle.dump(data, pickleFile)
+    
+    # with open(filepath, "w", newline='\n', encoding="utf8") as tsvFile:
+    #     dataWriter = csv.writer(tsvFile, delimiter=None)
+    #     dataWriter.writerows(data)
 
 
 rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
+#rawData = readRawData("../data/OLIDv1.0/testset-levela.tsv")
 print(rawData[1])
 cleansedData = cleanseData(rawData)
-print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
-#saveCleansedData(cleansedData, "../data/cleansedOLID/training08-04-21.tsv")
+#print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
+saveCleansedData(cleansedData, "../data/cleansedOLID/training_08-04-21.pickle")
+#saveCleansedData(cleansedData, "../data/cleansedOLID/testset-levela_18-04-21.pickle")
 
 
