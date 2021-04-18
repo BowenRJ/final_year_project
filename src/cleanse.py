@@ -12,7 +12,7 @@ def readRawData(filepath):
     With the levels being the classification of the tweets.
     """
 
-    print("\nReading data from " + filepath + '\n')
+    print("\nReading raw data from " + filepath + '\n')
     rawData = []
     with open(filepath, newline='\n', encoding="utf8") as tsvFile:
         dataReader = csv.reader(tsvFile, delimiter='\t')
@@ -28,6 +28,7 @@ def cleanseData(data):
     
     Remove everything but alphanumeric characters and then lemmatize the remaining words.
     """
+
     cleansedData = []
     stemmer = WordNetLemmatizer()
     for i in range(0, len(data)):
@@ -67,18 +68,13 @@ def saveCleansedData(data, filepath):
     Write raw data to a specified file location.
     """
 
-    print("\nWriting data to " + filepath + '\n')
+    print("\nWriting cleansed data to " + filepath + '\n')
     with open(filepath, "wb") as pickleFile:
         pickle.dump(data, pickleFile)
-    
-    # with open(filepath, "w", newline='\n', encoding="utf8") as tsvFile:
-    #     dataWriter = csv.writer(tsvFile, delimiter=None)
-    #     dataWriter.writerows(data)
 
 
 rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 #rawData = readRawData("../data/OLIDv1.0/testset-levela.tsv")
-print(rawData[1])
 cleansedData = cleanseData(rawData)
 #print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
 saveCleansedData(cleansedData, "../data/cleansedOLID/training_08-04-21.pickle")

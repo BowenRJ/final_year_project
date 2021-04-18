@@ -9,7 +9,7 @@ def readCleansedData(filepath):
     Read cleansed data.
     """
 
-    print("\nReading data from " + filepath + '\n')
+    print("\nReading cleansed data from " + filepath + '\n')
 
     with open (filepath, "rb") as pickleFile:
         cleansedData = pickle.load(pickleFile)
@@ -20,7 +20,8 @@ def saveVectorizedData(data, filepath):
     """
     Write vectorized data to a specified file location.
     """
-    print("\nWriting data to " + filepath + '\n')
+    
+    print("\nWriting vectorized data to " + filepath + '\n')
     with open(filepath, "wb") as pickleFile:
         pickle.dump(data, pickleFile)
 
@@ -52,7 +53,6 @@ vectorizer = sklearn.feature_extraction.text.CountVectorizer(
         stop_words=stopwords.words('english')
 )
 vectorizedData = vectorizer.fit_transform(cleansedData).toarray()
-
 
 # tf-idf (term frequency-inverse document frequency).
 #vectorizedData = TfidfTransformer().fit_transform(vectorizedData).toarray()

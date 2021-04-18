@@ -36,6 +36,7 @@ def saveModel(filename, model):
     with open(filename, "wb") as modelFile:
         pickle.dump(model, modelFile)
 
+
 def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
     """
     Print results.
@@ -46,15 +47,14 @@ def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
     print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 
 # Read data and target.
-
-
-# tf-idf (term frequency-inverse document frequency).
-#vectorizedData = TfidfTransformer().fit_transform(vectorizedData).toarray()
-
 vectorizedData, target = readTrainingData(
     "../data/vectorizedOLID/trainingBagOfWords-150features_08-04-21.pickle", 
     "../data/OLIDv1.0/olid-training-v1.0.tsv"
 )
+
+###### May not need to permanently store tf-idf if it isn't too long.
+# tf-idf (term frequency-inverse document frequency).
+#vectorizedData = TfidfTransformer().fit_transform(vectorizedData).toarray()
 
 
 # Split into training and testing sets.
@@ -71,9 +71,10 @@ startTime = time.time()
 classifier = DecisionTreeClassifier()
 classifier.fit(x_train, y_train)
 
+# Training time.
 trainingTime = time.time() - startTime
 
-# Predict with training set
+# Predict with training set.
 startTime = time.time()
 #y_pred = randomForestClassifier.predict(x_test)
 y_pred = classifier.predict(x_test)

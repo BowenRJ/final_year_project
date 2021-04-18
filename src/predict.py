@@ -44,10 +44,6 @@ def readTestData(vectorizedDataFile, rawDataFile):
 
 
 # Read test data and target.
-# data, target = readTestData(
-#     "../data/OLIDv1.0/testset-levela.tsv",
-#     "../data/OLIDv1.0/labels-levela.csv"
-# )
 vectorizedData, target = readTestData(
     "../data/vectorizedOLID/testset-levelaBagOfWords-150features_18-04-21.pickle",
     "../data/OLIDv1.0/labels-levela.csv"
