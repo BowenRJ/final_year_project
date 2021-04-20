@@ -20,7 +20,7 @@ def saveVectorizedData(data, filepath):
     """
     Write vectorized data to a specified file location.
     """
-    
+
     print("\nWriting vectorized data to " + filepath + '\n')
     with open(filepath, "wb") as pickleFile:
         pickle.dump(data, pickleFile)
@@ -42,7 +42,7 @@ def BERT(data):
 
 # Read cleansed data.
 #cleansedData = readCleansedData("../data/cleansedOLID/testset-levela_18-04-21.pickle")
-cleansedData = readCleansedData("../data/cleansedOLID/training_08-04-21.pickle")
+cleansedData = readCleansedData("../data/cleansedOLID/training1.pickle")
 
 
 # Vectorize data by bag of words method.
@@ -63,5 +63,4 @@ vectorizedData = vectorizer.fit_transform(cleansedData).toarray()
 # And then can consider making these separate function things.
 
 #saveVectorizedData(vectorizedData, "../data/vectorizedOLID/testset-levelaBagOfWords-150features_18-04-21.pickle")
-saveVectorizedData(vectorizedData, "../data/vectorizedOLID/trainingBagOfWords-150features_08-04-21.pickle")
-
+saveVectorizedData(vectorizedData, "../data/vectorizedOLID/training1.pickle")

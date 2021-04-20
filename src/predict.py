@@ -3,7 +3,11 @@ import time
 import sklearn
 import csv
 import numpy
+import matplotlib
+from matplotlib import pyplot
 from sklearn.feature_extraction.text import TfidfTransformer
+#from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
 from nltk.corpus import stopwords
 
 def loadModel(filename):
@@ -45,12 +49,12 @@ def readTestData(vectorizedDataFile, rawDataFile):
 
 # Read test data and target.
 vectorizedData, target = readTestData(
-    "../data/vectorizedOLID/testset-levelaBagOfWords-150features_18-04-21.pickle",
+    "../data/vectorizedOLID/testing1.pickle",
     "../data/OLIDv1.0/labels-levela.csv"
 )
 
 # Load model.
-classifier = loadModel("../models/tree150features_16-04-21.pickle")
+classifier = loadModel("../models/tree1.pickle")
 
 # Predict.
 startTime = time.time()
@@ -59,3 +63,6 @@ predictingTime = time.time() - startTime
 
 # Print results.
 printResults(target, predictions, predictingTime)
+
+#tree.plot_tree(classifier)
+#pyplot.show()

@@ -77,7 +77,5 @@ rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
 #rawData = readRawData("../data/OLIDv1.0/testset-levela.tsv")
 cleansedData = cleanseData(rawData)
 #print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
-saveCleansedData(cleansedData, "../data/cleansedOLID/training_08-04-21.pickle")
+saveCleansedData(cleansedData, "../data/cleansedOLID/training1.pickle")
 #saveCleansedData(cleansedData, "../data/cleansedOLID/testset-levela_18-04-21.pickle")
-
-

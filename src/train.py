@@ -8,7 +8,6 @@ from sklearn import ensemble
 from sklearn.tree import DecisionTreeClassifier
 from nltk.corpus import stopwords
 
-
 def readTrainingData(vectorizedDataFile, rawDataFile):
     """
     Read the vectorized data and the target classifications.
@@ -46,11 +45,13 @@ def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
     print("\nConfusion matrix:\n", sklearn.metrics.confusion_matrix(y_test, y_pred))
     print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 
+
 # Read data and target.
 vectorizedData, target = readTrainingData(
-    "../data/vectorizedOLID/trainingBagOfWords-150features_08-04-21.pickle", 
+    "../data/vectorizedOLID/training1.pickle", 
     "../data/OLIDv1.0/olid-training-v1.0.tsv"
 )
+
 
 ###### May not need to permanently store tf-idf if it isn't too long.
 # tf-idf (term frequency-inverse document frequency).
