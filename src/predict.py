@@ -49,12 +49,12 @@ def readTestData(vectorizedDataFile, rawDataFile):
 
 # Read test data and target.
 vectorizedData, target = readTestData(
-    "../data/vectorizedOLID/testing1.pickle",
+    "../data/vectorizedOLID/testing2.pickle",
     "../data/OLIDv1.0/labels-levela.csv"
 )
 
 # Load model.
-classifier = loadModel("../models/tree1.pickle")
+classifier = loadModel("../models/tree3.pickle")
 
 # Predict.
 startTime = time.time()
@@ -64,5 +64,7 @@ predictingTime = time.time() - startTime
 # Print results.
 printResults(target, predictions, predictingTime)
 
-#tree.plot_tree(classifier)
-#pyplot.show()
+print(classifier.tree_.max_depth)
+
+tree.plot_tree(classifier)
+pyplot.show()

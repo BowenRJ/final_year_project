@@ -3,6 +3,7 @@ import pickle
 import time
 import sklearn
 import numpy
+import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn import ensemble
 from sklearn.tree import DecisionTreeClassifier
@@ -48,7 +49,7 @@ def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
 
 # Read data and target.
 vectorizedData, target = readTrainingData(
-    "../data/vectorizedOLID/training1.pickle", 
+    "../data/vectorizedOLID/training2.pickle", 
     "../data/OLIDv1.0/olid-training-v1.0.tsv"
 )
 
@@ -68,8 +69,8 @@ startTime = time.time()
 #randomForestClassifier = sklearn.ensemble.RandomForestClassifier(n_estimators=1000, random_state=0)
 #randomForestClassifier.fit(x_train, y_train)
 
-# Decision Tree
-classifier = DecisionTreeClassifier()
+# Decision Tree.
+classifier = DecisionTreeClassifier(max_depth=15)
 classifier.fit(x_train, y_train)
 
 # Training time.
@@ -84,4 +85,4 @@ predictingTime = time.time() - startTime
 printTrainingResults(y_test, y_pred, trainingTime, predictingTime)
 
 # Save model
-#saveModel("../models/tree150features_16-04-21.pickle", classifier)
+saveModel("../models/tree3.pickle", classifier)

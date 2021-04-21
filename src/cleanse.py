@@ -1,6 +1,7 @@
 import csv
 import regex
 import pickle
+import time
 from nltk.stem import WordNetLemmatizer
 
 def readRawData(filepath):
@@ -73,9 +74,16 @@ def saveCleansedData(data, filepath):
         pickle.dump(data, pickleFile)
 
 
-rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
-#rawData = readRawData("../data/OLIDv1.0/testset-levela.tsv")
+startTime = time.time()
+
+#rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
+rawData = readRawData("../data/OLIDv1.0/testset-levela.tsv")
 cleansedData = cleanseData(rawData)
 #print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
-saveCleansedData(cleansedData, "../data/cleansedOLID/training1.pickle")
-#saveCleansedData(cleansedData, "../data/cleansedOLID/testset-levela_18-04-21.pickle")
+#saveCleansedData(cleansedData, "../data/cleansedOLID/training1.pickle")
+saveCleansedData(cleansedData, "../data/cleansedOLID/testing1.pickle")
+
+# Print time.
+endTime = time.time()
+cleansingTime = startTime - endTime
+print("Time taken to cleanse "+str(len(rawData))+" items of data: "+cleansingTime)

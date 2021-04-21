@@ -2,6 +2,7 @@ import csv
 import sklearn
 import numpy
 import pickle
+import time
 from nltk.corpus import stopwords
 
 def readCleansedData(filepath):
@@ -40,14 +41,15 @@ def BERT(data):
     print("not implemented")
 
 
-# Read cleansed data.
-#cleansedData = readCleansedData("../data/cleansedOLID/testset-levela_18-04-21.pickle")
-cleansedData = readCleansedData("../data/cleansedOLID/training1.pickle")
+startTime = time.time()
 
+# Read cleansed data.
+cleansedData = readCleansedData("../data/cleansedOLID/testing1.pickle")
+#cleansedData = readCleansedData("../data/cleansedOLID/training1.pickle")
 
 # Vectorize data by bag of words method.
 vectorizer = sklearn.feature_extraction.text.CountVectorizer(
-        max_features=150,
+        max_features=300,
         min_df=5,
         max_df=0.7,
         stop_words=stopwords.words('english')
@@ -63,4 +65,9 @@ vectorizedData = vectorizer.fit_transform(cleansedData).toarray()
 # And then can consider making these separate function things.
 
 #saveVectorizedData(vectorizedData, "../data/vectorizedOLID/testset-levelaBagOfWords-150features_18-04-21.pickle")
-saveVectorizedData(vectorizedData, "../data/vectorizedOLID/training1.pickle")
+saveVectorizedData(vectorizedData, "../data/vectorizedOLID/testing2.pickle")
+
+# Print time.
+endTime = time.time()
+vectorizingTime = startTime - endTime
+print("Time taken to vectorize "+str(len(cleansedData))+" items of data: "+vectorizingTime)
