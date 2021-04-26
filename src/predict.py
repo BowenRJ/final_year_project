@@ -54,7 +54,7 @@ vectorizedData, target = readTestData(
 )
 
 # Load model.
-classifier = loadModel("../models/tree3.pickle")
+classifier = loadModel("../models/tree0.pickle")
 
 # Predict.
 startTime = time.time()
@@ -66,5 +66,5 @@ printResults(target, predictions, predictingTime)
 
 print(classifier.tree_.max_depth)
 
-tree.plot_tree(classifier)
-pyplot.show()
+#tree.plot_tree(classifier)
+#pyplot.show()

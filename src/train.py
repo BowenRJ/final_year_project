@@ -47,6 +47,8 @@ def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
     print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 
 
+plt.rcParams.update({'font.size': 14})
+
 # Read data and target.
 vectorizedData, target = readTrainingData(
     "../data/vectorizedOLID/training2.pickle", 
@@ -70,7 +72,7 @@ startTime = time.time()
 #randomForestClassifier.fit(x_train, y_train)
 
 # Decision Tree.
-classifier = DecisionTreeClassifier(max_depth=15)
+classifier = DecisionTreeClassifier(max_depth=100)
 classifier.fit(x_train, y_train)
 
 # Training time.
@@ -85,4 +87,4 @@ predictingTime = time.time() - startTime
 printTrainingResults(y_test, y_pred, trainingTime, predictingTime)
 
 # Save model
-saveModel("../models/tree3.pickle", classifier)
+saveModel("../models/tree0.pickle", classifier)

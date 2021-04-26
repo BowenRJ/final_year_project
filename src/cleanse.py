@@ -3,6 +3,7 @@ import regex
 import pickle
 import time
 from nltk.stem import WordNetLemmatizer
+ 
 
 def readRawData(filepath):
     """
@@ -13,7 +14,7 @@ def readRawData(filepath):
     With the levels being the classification of the tweets.
     """
 
-    print("\nReading raw data from " + filepath + '\n')
+    print("Reading raw data from " + filepath)
     rawData = []
     with open(filepath, newline='\n', encoding="utf8") as tsvFile:
         dataReader = csv.reader(tsvFile, delimiter='\t')
@@ -69,21 +70,27 @@ def saveCleansedData(data, filepath):
     Write raw data to a specified file location.
     """
 
-    print("\nWriting cleansed data to " + filepath + '\n')
+    print("Writing cleansed data to " + filepath)
     with open(filepath, "wb") as pickleFile:
         pickle.dump(data, pickleFile)
 
 
-startTime = time.time()
+filenameSuffix = "0"
 
-#rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
+# Cleanse training data.
+startTime = time.time()
+rawData = readRawData("../data/OLIDv1.0/olid-training-v1.0.tsv")
+cleansedData = cleanseData(rawData)
+saveCleansedData(cleansedData, "../data/cleansedOLID/training"+filenameSuffix+".pickle")
+endTime = time.time()
+cleansingTime = endTime - startTime
+print("Time taken to cleanse "+str(len(rawData))+" items of training data: "+str(cleansingTime)+"\n")
+
+# Cleanse testing data.
+startTime = time.time()
 rawData = readRawData("../data/OLIDv1.0/testset-levela.tsv")
 cleansedData = cleanseData(rawData)
-#print("Tweet 1: ", cleansedData[1][1], "\nClassification: ", cleansedData[1][2])
-#saveCleansedData(cleansedData, "../data/cleansedOLID/training1.pickle")
-saveCleansedData(cleansedData, "../data/cleansedOLID/testing1.pickle")
-
-# Print time.
+saveCleansedData(cleansedData, "../data/cleansedOLID/testing"+filenameSuffix+".pickle")
 endTime = time.time()
-cleansingTime = startTime - endTime
-print("Time taken to cleanse "+str(len(rawData))+" items of data: "+cleansingTime)
+cleansingTime = endTime - startTime
+print("Time taken to cleanse "+str(len(rawData))+" items of testing data: "+str(cleansingTime))
