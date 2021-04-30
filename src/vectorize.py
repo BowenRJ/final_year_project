@@ -41,7 +41,7 @@ def BERT(data):
     print("not implemented")
 
 
-filenameSuffix = "4"
+filenameSuffix = "5"
 startTime = time.time()
 
 # Read cleansed data.
@@ -52,9 +52,9 @@ cleansedData = cleansedTrainingData + cleansedTestingData
 
 # Create count vectorizer on all present data.
 vectorizer = sklearn.feature_extraction.text.CountVectorizer(
-        max_features=800,
-        min_df=5,
-        max_df=0.7,
+        max_features=1600,
+        min_df=5,            # Minimum document frequency.
+        max_df=0.7,          # Maximum document frequency (%).
         stop_words=stopwords.words('english')
 )
 vectorizer = vectorizer.fit(cleansedData)

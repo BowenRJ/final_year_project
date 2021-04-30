@@ -47,11 +47,9 @@ def printTrainingResults(y_test, y_pred, trainingTime, predictingTime):
     print("\nClassification report:\n", sklearn.metrics.classification_report(y_test, y_pred))
 
 
-plt.rcParams.update({'font.size': 14})
-
 # Read data and target.
 vectorizedData, target = readTrainingData(
-    "../data/vectorizedOLID/training2.pickle", 
+    "../data/vectorizedOLID/training4.pickle", 
     "../data/OLIDv1.0/olid-training-v1.0.tsv"
 )
 
@@ -62,18 +60,18 @@ vectorizedData, target = readTrainingData(
 
 
 # Split into training and testing sets.
-x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vectorizedData, target, test_size=0.2, random_state=0)
+x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vectorizedData, target, test_size=0.25)
 
 
 # Training classification model.
 startTime = time.time()
-# Random Forest
-#randomForestClassifier = sklearn.ensemble.RandomForestClassifier(n_estimators=1000, random_state=0)
-#randomForestClassifier.fit(x_train, y_train)
+Random Forest
+randomForestClassifier = sklearn.ensemble.RandomForestClassifier(n_estimators=100, random_state=0)
+randomForestClassifier.fit(x_train, y_train)
 
 # Decision Tree.
-classifier = DecisionTreeClassifier(max_depth=100)
-classifier.fit(x_train, y_train)
+# classifier = DecisionTreeClassifier(max_depth=40)
+# classifier.fit(x_train, y_train)
 
 # Training time.
 trainingTime = time.time() - startTime
@@ -87,4 +85,4 @@ predictingTime = time.time() - startTime
 printTrainingResults(y_test, y_pred, trainingTime, predictingTime)
 
 # Save model
-saveModel("../models/tree0.pickle", classifier)
+saveModel("../models/forest1.pickle", classifier)
