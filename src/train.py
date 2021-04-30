@@ -9,6 +9,8 @@ from sklearn import ensemble
 from sklearn.tree import DecisionTreeClassifier
 from nltk.corpus import stopwords
 
+RANDOM_STATE = 47
+
 def readTrainingData(vectorizedDataFile, rawDataFile):
     """
     Read the vectorized data and the target classifications.
@@ -65,12 +67,12 @@ x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(vect
 
 # Training classification model.
 startTime = time.time()
-Random Forest
-randomForestClassifier = sklearn.ensemble.RandomForestClassifier(n_estimators=100, random_state=0)
-randomForestClassifier.fit(x_train, y_train)
+#Random Forest
+classifier = sklearn.ensemble.RandomForestClassifier(n_estimators=100, random_state=RANDOM_STATE)
+classifier.fit(x_train, y_train)
 
 # Decision Tree.
-# classifier = DecisionTreeClassifier(max_depth=40)
+# classifier = DecisionTreeClassifier(max_depth=40, random_state=RANDOM_STATE)
 # classifier.fit(x_train, y_train)
 
 # Training time.
