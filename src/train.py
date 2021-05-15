@@ -115,27 +115,30 @@ def iterativelyTestAndTrain():
 
 
 def iterativelyTestMLP():
+    print("Beginning tests...")
     classifier = sklearn.neural_network.MLPClassifier(
         #solver             = "lbfgs",
         #alpha              = 1e-5,
         #hidden_layer_sizes = (5, 2),
-        max_iter     = 100
+        max_iter     = 10000
     )
 
+    experimentStartTime = time.time()
+
     parameterSpace = {
-        "hidden_layer_sizes": [(10,), (10,10,), (10,10,10), (10,10,10,10), (50,), (50,50), (50,50,50), (50,50,50,50)],
-        "activation": ["tanh", "relu"],
-        "solver": ["lbfgs", "sgd", "adam"],
-        "alpha": [0.0001, 0.05],
-        "learning_rate": ["constant", "adaptive"]
+        "hidden_layer_sizes": [(200,200,200), (500,500), (500,500,500), (700), (700, 700), (1000)],
+        "activation": ["relu"],#, "logistic", "tanh"],
+        "solver": ["adam", "sgd"],
+        "alpha": [0.000005, 0.00001, 0.0001, 0.001]
+        #"learning_rate": ["constant", "adaptive"]
     }
 
-    clf = GridSearchCV(classifier, parameterSpace, n_jobs=-1, cv=3)
+    clf = GridSearchCV(classifier, parameterSpace, n_jobs=-1, cv=3, verbose=2)
     clf.fit(x_train, y_train)
 
     print(sorted(clf.cv_results_.keys()))
 
-    # Best paramete set
+    # Best parameter set.
     print('Best parameters found:\n', clf.best_params_)
 
     # All results
@@ -143,6 +146,9 @@ def iterativelyTestMLP():
     stds = clf.cv_results_['std_test_score']
     for mean, std, params in zip(means, stds, clf.cv_results_['params']):
         print("%0.3f (+/-%0.03f) for %r" % (mean, std * 2, params))
+
+    experimentTime = time.time() - experimentStartTime
+    print("\n"+str(experimentTime))
 
 
 # Read data and target.
@@ -178,9 +184,10 @@ startTime = time.time()
 
 # Neural Network.
 classifier = sklearn.neural_network.MLPClassifier(
-    solver             = "lbfgs", # Which?
-    alpha              = 0.001,
-    hidden_layer_sizes = (50,50,50,50,50,50,50,50,50,50),
+    solver             = "sgd", # Which?
+    activation          = "relu",
+    alpha              = 0.0001,
+    hidden_layer_sizes = (700),
     max_iter           = 10000 # How high?
 ) # dual = true for when more features than examples? (not quite true), or set to false
 classifier.fit(x_train, y_train)
@@ -196,4 +203,4 @@ predictingTime = time.time() - startTime
 printTrainingResults(y_test, y_pred, trainingTime, predictingTime)
 
 # Save model
-#saveModel("../models/nn1.pickle", classifier)
+saveModel("../models/mlp1.pickle", classifier)

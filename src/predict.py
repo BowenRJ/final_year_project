@@ -47,14 +47,28 @@ def readTestData(vectorizedDataFile, rawDataFile):
     return vectorizedData, target
 
 
+def encodeTarets(data):
+    for i, target in enumerate(data):
+        if target   == "NOT":
+            data[i] = 0
+        elif target == "OFF":
+            data[i] = 1
+        else:
+            print("Error, targets not as expected.")
+            exit()
+    return data
+    
+
 # Read test data and target.
 vectorizedData, target = readTestData(
-    "../data/vectorizedOLID/testing13.pickle",
+    "../data/vectorizedOLID/testing8.pickle",
     "../data/OLIDv1.0/labels-levela.csv"
 )
 
+target = encodeTarets(target)
+
 # Load model.
-classifier = loadModel("../models/randomForest4.pickle")
+classifier = loadModel("../models/mlp1.pickle")
 
 # Predict.
 startTime = time.time()
