@@ -6,7 +6,6 @@ import numpy
 import matplotlib
 from matplotlib import pyplot
 from sklearn.feature_extraction.text import TfidfTransformer
-#from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 from nltk.corpus import stopwords
 
@@ -57,7 +56,7 @@ def encodeTarets(data):
             print("Error, targets not as expected.")
             exit()
     return data
-    
+
 
 # Read test data and target.
 vectorizedData, target = readTestData(
@@ -68,7 +67,7 @@ vectorizedData, target = readTestData(
 target = encodeTarets(target)
 
 # Load model.
-classifier = loadModel("../models/mlp1.pickle")
+classifier = loadModel("../models/mlp.pickle")
 
 # Predict.
 startTime = time.time()

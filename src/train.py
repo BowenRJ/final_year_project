@@ -184,10 +184,10 @@ startTime = time.time()
 
 # Neural Network.
 classifier = sklearn.neural_network.MLPClassifier(
-    solver             = "sgd", # Which?
+    solver             = "adam", # Which?
     activation          = "relu",
     alpha              = 0.0001,
-    hidden_layer_sizes = (700),
+    hidden_layer_sizes = (500,500,500),
     max_iter           = 10000 # How high?
 ) # dual = true for when more features than examples? (not quite true), or set to false
 classifier.fit(x_train, y_train)
@@ -202,5 +202,5 @@ y_pred = classifier.predict(x_test)
 predictingTime = time.time() - startTime
 printTrainingResults(y_test, y_pred, trainingTime, predictingTime)
 
-# Save model
-saveModel("../models/mlp1.pickle", classifier)
+# Save model.
+saveModel("../models/mlp.pickle", classifier)
